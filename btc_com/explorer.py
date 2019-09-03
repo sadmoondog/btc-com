@@ -36,7 +36,7 @@ class UnspentTransaction:
     """
     def __init__(self, unspent):
         self.tx_hash = unspent['tx_hash']
-        self.tx_output_n = unspent['tx_output_n ']
+        self.tx_output_n = unspent['tx_output_n']
         self.tx_output_n2 = unspent['tx_output_n2']
         self.value = unspent['value']
         self.confirmations = unspent['confirmations']
@@ -266,8 +266,11 @@ def get_unspent_transactions(address):
     resource = f'address/{address}/unspent'
     response = util.call_api(resource)
     unspent_txs = []
-    for unspent in response:
-        unspent_txs.append(UnspentTransaction(unspent))
+    try:
+        for unspent in response['list']:
+            unspent_txs.append(UnspentTransaction(unspent))
+    except:
+        pass    
     return unspent_txs
 
 
