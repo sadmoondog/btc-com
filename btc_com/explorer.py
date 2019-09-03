@@ -248,8 +248,12 @@ def get_address_transactions(address):
     resource = f'address/{address}/tx'
     response = util.call_api(resource)
     txs = []
-    for tx in response['list']:
-        txs.append(Transaction(tx))
+    try:
+        for tx in response['list']:
+            txs.append(Transaction(tx))
+    except:
+        pass
+
     return txs
 
 
