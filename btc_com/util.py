@@ -1,6 +1,9 @@
 import requests
 
 from time import sleep
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 BTC_URL = 'https://chain.api.btc.com/v3/'
@@ -15,6 +18,7 @@ def call_api(resource, payload=None):
     :return: json api response
     """
     url = BTC_URL + resource
+    _logger.warning(url)
     if payload:
         response = requests.get(url, params=payload)
     else:
