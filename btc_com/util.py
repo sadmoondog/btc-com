@@ -11,7 +11,7 @@ BTC_URL = 'https://chain.api.btc.com/v3/'
 sleep_time = .25
 
 
-def call_api(resource, payload=None):
+def call_api(resource, payload=None, timeout=5):
     """
     Build URL and Make an API request
     :param str resource: url endpoint being called
@@ -20,15 +20,15 @@ def call_api(resource, payload=None):
     url = BTC_URL + resource
     _logger.warning(url)
     if payload:
-        response = requests.get(url, params=payload)
+        response = requests.get(url, params=payload, timeout=timeout)
     else:
-        response = requests.get(url)
+        response = requests.get(url, timeout=timeout)
     if response.status_code == 403:  # try waiting
         sleep(sleep_time)
         if payload:
-            response = requests.get(url, params=payload)
+            response = requests.get(url, params=payload, timeout=timeout)
         else:
-            response = requests.get(url)
+            response = requests.get(url, timeout=timeout)
     return handle_response(response)
 
 
